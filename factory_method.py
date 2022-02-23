@@ -1,5 +1,4 @@
 # The Factory Method pattern is applicable when there is a hierarchy of Product classes.
-
 # Basic product
 class Transport:
     def __init__(self, cargo):
@@ -34,7 +33,6 @@ class Ship(Transport):
 # kind of business logic that requires the creation of a variety of products.
 class Logistics:
     def plan_delivery(self, cargo):
-        print('...some operations')
         transport = self.create_transport(cargo)
         transport.get_cargo()
         print('...a little bit later')
@@ -56,10 +54,14 @@ class ShipLogistics(Logistics):
         return Ship(cargo)
 
 
-# The application creates a certain factory depending on certain conditions.
+# Depending on the configuration (or other conditions), select the desired factory.
 if __name__ == '__main__':
-    ship = ShipLogistics()
-    ship.plan_delivery('Apples')
-    print()
-    truck = TruckLogistics()
-    truck.plan_delivery('Oranges')
+    config_delivery_type = 'ship'  # 'ship' or 'truck'
+
+    if config_delivery_type == 'ship':
+        logistics = ShipLogistics()
+
+    if config_delivery_type == 'truck':
+        logistics = TruckLogistics()
+
+    logistics.plan_delivery('Apples')
